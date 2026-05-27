@@ -20,6 +20,8 @@ def insert_stock_data(stock_data):
         db = client.api_data
         collection = db.stock_data
 
+        # collection.delete_many(stock_data)
+
         for stock in stock_data:
             stock["timestamp"] = datetime.now()
         

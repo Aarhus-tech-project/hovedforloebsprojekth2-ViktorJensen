@@ -1,9 +1,11 @@
 from utils.fetch_stock_data import FetchData
 from lib.mongo import insert_stock_data
+from lib.clean_mongo import clean_stock_data
 
 def main():
     data = FetchData()
     print(data)
+    clean_stock_data()
     insert_stock_data(data)
 
 
