@@ -16,4 +16,4 @@ stocksPayload = Payload(
     range=[]
 )
 
-stocsPayload_dict = asdict(stocksPayload)
+stocksPayload_dict = asdict(stocksPayload)
