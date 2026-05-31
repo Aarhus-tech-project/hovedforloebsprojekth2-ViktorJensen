@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model UserData {
+  userID     String   @id @default(uuid()) @db.Uuid
+  email      String
+  username   String
+  pwdHash    String
+
+  portfolios PortfolioData[]
+  buyTrades  Trade[]  @relation("BuyerTrades")
+  sellTrades Trade[]  @relation("SellerTrades")
+
+  @@map("user_data")
+}
+
+model PortfolioData {
+  portfolioID String   @id @default(uuid()) @db.Uuid
+  userID      String   @db.Uuid
+  cashBalance Decimal
+  totalValue  Decimal
+
+  user     UserData     @relation(fields: [userID], references: [userID])
+  holdings Holdings[]
+
+  @@map("portfolio_data")
+}
+
+model Stock {
+  stockID   String      @id @default(uuid()) @db.Uuid
+  stockName String      @unique
+  stockData StockData?
+  trades    Trade[]
+  holdings  Holdings[]
+
+  @@map("stocks")
+}
+
+model StockData {
+  stockID      String   @id @db.Uuid
+  currentPrice Decimal
+  highPrice    Decimal
+  lowPrice     Decimal
+  volume       BigInt   @db.BigInt
+  lastUpdated  DateTime
+
+  stock Stock @relation(fields: [stockID], references: [stockID])
+
+  @@map("stock_data")
+}
+
+model Trade {
+  tradeID     String   @id @default(uuid()) @db.Uuid
+  buyerID     String   @db.Uuid
+  sellerID    String   @db.Uuid
+  stockID     String   @db.Uuid
+  price       Decimal
+  shareAmount Int
+  timestamp   DateTime
+
+  buyer  UserData @relation("BuyerTrades", fields: [buyerID], references: [userID])
+  seller UserData @relation("SellerTrades", fields: [sellerID], references: [userID])
+  stock  Stock    @relation(fields: [stockID], references: [stockID])
+
+  holdings Holdings[]
+
+  @@map("trade")
+}
+
+model Holdings {
+  portfolioID  String        @db.Uuid
+  stockID      String        @db.Uuid
+  tradeID      String        @db.Uuid
+  currentStock String
+
+  portfolio PortfolioData @relation(fields: [portfolioID], references: [portfolioID])
+  stock     Stock         @relation(fields: [stockID], references: [stockID])
+  trade     Trade         @relation(fields: [tradeID], references: [tradeID])
+
+  @@id([portfolioID, stockID, tradeID])
+  @@map("holdings")
+}
