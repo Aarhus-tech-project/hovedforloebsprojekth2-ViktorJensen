@@ -14,15 +14,14 @@ datasource db {
 
 model UserData {
   userID     String   @id @default(uuid()) @db.Uuid
-  email      String
-  username   String
+  email      String   @unique
+  username   String   @unique
   pwdHash    String
 
   portfolios PortfolioData[]
   buyTrades  Trade[]  @relation("BuyerTrades")
   sellTrades Trade[]  @relation("SellerTrades")
 
-  @@map("user_data")
 }
 
 model PortfolioData {
@@ -34,30 +33,30 @@ model PortfolioData {
   user     UserData     @relation(fields: [userID], references: [userID])
   holdings Holdings[]
 
-  @@map("portfolio_data")
+  @@index([userID])
 }
 
 model Stock {
-  stockID   String      @id @default(uuid()) @db.Uuid
-  stockName String      @unique
-  stockData StockData?
-  trades    Trade[]
-  holdings  Holdings[]
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String   @unique
 
-  @@map("stocks")
+  data    StockData[]
+  trades  Trade[]
+  holdings   Holdings[]
 }
 
 model StockData {
-  stockID      String   @id @db.Uuid
-  currentPrice Decimal
-  highPrice    Decimal
-  lowPrice     Decimal
-  volume       BigInt   @db.BigInt
-  lastUpdated  DateTime
+  id         String   @id @default(uuid()) @db.Uuid
+  stockId    String
+  stock      Stock    @relation(fields: [stockId], references: [id])
+  open       Float
+  close      Float
+  volume     BigInt
 
-  stock Stock @relation(fields: [stockID], references: [stockID])
+  fetchedAt  DateTime
 
-  @@map("stock_data")
+  @@index([stockId, fetchedAt])
+  @@unique([stockId, fetchedAt])
 }
 
 model Trade {
@@ -65,29 +64,28 @@ model Trade {
   buyerID     String   @db.Uuid
   sellerID    String   @db.Uuid
   stockID     String   @db.Uuid
+
+  stock       Stock    @relation(fields: [stockID], references: [id])
+
   price       Decimal
   shareAmount Int
   timestamp   DateTime
 
   buyer  UserData @relation("BuyerTrades", fields: [buyerID], references: [userID])
   seller UserData @relation("SellerTrades", fields: [sellerID], references: [userID])
-  stock  Stock    @relation(fields: [stockID], references: [stockID])
 
   holdings Holdings[]
 
-  @@map("trade")
 }
 
 model Holdings {
   portfolioID  String        @db.Uuid
   stockID      String        @db.Uuid
   tradeID      String        @db.Uuid
-  currentStock String
 
   portfolio PortfolioData @relation(fields: [portfolioID], references: [portfolioID])
-  stock     Stock         @relation(fields: [stockID], references: [stockID])
+  stock     Stock         @relation(fields: [stockID], references: [id])
   trade     Trade         @relation(fields: [tradeID], references: [tradeID])
 
   @@id([portfolioID, stockID, tradeID])
-  @@map("holdings")
 }
