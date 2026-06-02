@@ -28,7 +28,6 @@ model PortfolioData {
   portfolioID String   @id @default(uuid()) @db.Uuid
   userID      String   @db.Uuid
   cashBalance Decimal
-  totalValue  Decimal
 
   user     UserData     @relation(fields: [userID], references: [userID])
   holdings Holdings[]
@@ -47,7 +46,7 @@ model Stock {
 
 model StockData {
   id         String   @id @default(uuid()) @db.Uuid
-  stockId    String
+  stockId    String   @db.Uuid
   stock      Stock    @relation(fields: [stockId], references: [id])
   open       Float
   close      Float
