@@ -14,7 +14,7 @@ function NavBar() {
                 <div className="flex items-center">
                     <div className="pr-1"><SlLogin size={20}/></div>
                     <div className="flex md:hidden"><HiOutlineMenuAlt4 size={20}/>
-</div>
+                </div>
                 </div>
             </div>
         </div>
