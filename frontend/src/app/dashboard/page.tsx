@@ -1,6 +1,6 @@
 export default function Dashboard() {
     return (
-        <div className="flex justify-center min-h-screen font-sans bg-slate-1000">
+        <div className="flex justify-center min-h-screen font-sans bg-linear-to-b from-black to-gray-900">
             <div className="w-screen h-screen ml-20 mr-20 mt-20 ">
                 <div className="font-bold text-3xl">My economy</div>
                 <div className="grid grid-cols-3 gap-3 mt-6">
