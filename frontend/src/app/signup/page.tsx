@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function SignupPage() {
     const [username, setUsername] = useState("");
@@ -49,7 +49,7 @@ export default function SignupPage() {
         return;
         }
 
-        setMessage("Account created successfully! \n Continue to log in, to start investing!");
+        setMessage("Account created successfully! Continue to log in, to start investing!");
         setUsername("");
         setEmail("");
         setPassword("");
@@ -70,7 +70,7 @@ export default function SignupPage() {
             </div>
             <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                <div className="mb-2 block text-sm text-gray-400">Full Name</div>
+                <div className="mb-2 block text-sm text-gray-400">Username</div>
                 <input
                     name="username"
                     value={username}
