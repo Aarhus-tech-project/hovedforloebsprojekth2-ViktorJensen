@@ -1,19 +1,39 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-    const [message, setMessage] = useState<string | null>(null);
-    const [isVisible, setIsVisible] = useState(true);
+    const router = useRouter();
+    const [ form, setForm] = useState({ username: "", password: ""})
+    const [ error, setError ] = useState('')
+    
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    };
 
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setMessage(null);
+        setError("")
 
-    if (!isVisible) return null;
+    try {
+        const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+        credentials: "include", //cookies are saved
+    });
 
+        if (res.ok) {
+            router.push("/dashboard"); // redirect after login
+        } else {
+            const data = await res.json();
+            setError(data.message || "Login failed");
+        }
+    } catch {
+        setError("Something went wrong",);
     };
+    }
 
     return (
         <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-linear-to-b from-black to-gray-900 px-6">
@@ -31,6 +51,7 @@ export default function LoginPage() {
                 <div>
                 <div className="mb-2 block text-sm text-gray-400">Username</div>
                 <input
+                    onChange={handleChange}
                     name="username"
                     type="text"
                     placeholder="Ben Dover"
@@ -42,6 +63,7 @@ export default function LoginPage() {
                 <div>
                 <div className="mb-2 block text-sm text-gray-400">Password</div>
                 <input
+                    onChange={handleChange}
                     name="password"
                     type="password"
                     placeholder="••••••••"
@@ -50,14 +72,12 @@ export default function LoginPage() {
                 </div>
                 <div>
                 </div>
-                <Link href={"/dashboard"}>
                 <button
                 type="submit"
                 className="flex justify-center w-full rounded-xl bg-white py-3 font-semibold text-black transition-transform duration-200 hover:scale-105 hover:bg-gray-200 hover:cursor-pointer"
                 >
                 Log in
                 </button>
-                </Link>
             </form>
             </div>
         </div>

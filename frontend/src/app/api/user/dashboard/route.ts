@@ -11,10 +11,10 @@ export async function GET() {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {userID: string}
+        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
     
         const user = await prisma.userData.findUnique({
-        where: {userID: decoded.userID},
+        where: { userID: decoded.userId },
         select: {
             userID: true,
             username: true,

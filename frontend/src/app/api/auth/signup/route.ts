@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
             pwdHash,
         },
         });
-        const token = jwt.sign({ userId: newUser.userID }, process.env.JWT_SECRET!, {
+        const token = jwt.sign({ userID: newUser.userID }, process.env.JWT_SECRET!, {
             expiresIn: "1h", // token expires in 1 hour
         });
         (await cookies()).set("token", token, {
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
             maxAge: 60 * 60, // cookie expires in 1 hour
             path: "/", // Cookies site wide
         })
-        return NextResponse.json({ userId: newUser.userID, message: "Account created successfully" }, { status: 201 });
+        return NextResponse.json({ userID: newUser.userID, message: "Account created successfully" }, { status: 201 });
     } catch (error: any) {
         return NextResponse.json(
         { error: error?.message || "Unable to create account" },
