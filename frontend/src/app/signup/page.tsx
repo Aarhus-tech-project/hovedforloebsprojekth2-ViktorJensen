@@ -1,9 +1,11 @@
-"use client";
+"use client"
 
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
+    const router = useRouter();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -11,6 +13,7 @@ export default function SignupPage() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const [isVisible, setIsVisible] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -33,20 +36,26 @@ export default function SignupPage() {
         return;
         }
 
-        const res = await fetch("/api/signup", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password }),
-        });
+        try {
+            const res = await fetch("/api/auth/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, email, password }),
+                credentials: "include",
+            });
 
-        if (!res.ok) {
-        const errorBody = await res.json();
-        setMessage("Signup failed");
-        console.log(errorBody);
-        
-        return;
+            if (!res.ok) {
+                const errorBody = await res.json();
+                setMessage("Signup failed");
+                console.log(errorBody);
+                return;
+            }
+            
+            // Only reached if success
+            router.push("/login");
+            return;
+        } catch (err) {
+            setError("Something went wrong");
         }
 
         setMessage("Account created successfully! Continue to log in, to start investing!");
@@ -119,9 +128,10 @@ export default function SignupPage() {
                 </div>
                 <button
                 type="submit"
+                onClick={() => setLoading(true)}
                 className="flex justify-center w-full rounded-xl bg-white py-3 font-semibold text-black transition-transform duration-200 hover:scale-105 hover:bg-gray-200 hover:cursor-pointer"
                 >
-                Create Account
+                {loading ? "Creating account" : "Create account"}
                 </button>
             </form>
             {message ? (
