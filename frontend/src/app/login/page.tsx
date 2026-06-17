@@ -25,13 +25,14 @@ export default function LoginPage() {
     });
 
         if (res.ok) {
+            window.dispatchEvent(new CustomEvent("authChanged"));
             router.push("/dashboard"); // redirect after login
         } else {
             const data = await res.json();
             setError(data.message || "Login failed");
         }
     } catch {
-        setError("Something went wrong",);
+        setError("Something went wrong");
     };
     }
 

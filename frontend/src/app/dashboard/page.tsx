@@ -2,12 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
-interface User {
-    userID?: string;
-    username: string;
-    email: string;
-}
+import { User } from "../lib/types"
 
 export default function Dashboard() {
     const router = useRouter();
@@ -25,6 +20,8 @@ export default function Dashboard() {
                 if (res.ok) {
                     const data = await res.json();
                     setUser(data.user);
+                    console.log(data);
+                    
                 } else {
                     router.push("/login"); // unautherized, redirect
                 }
@@ -38,13 +35,6 @@ export default function Dashboard() {
         fetchDashboard();
     }, [router]);
 
-    const handleLogout = async () => {
-        await fetch("/api/auth/logout", {
-            method: "POST",
-            credentials: "include", // clears cookies
-        })
-        router.push("/login");
-    }
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center">

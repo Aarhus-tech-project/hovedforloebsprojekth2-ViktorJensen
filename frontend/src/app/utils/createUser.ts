@@ -1,10 +1,5 @@
 import { prisma } from "../../../lib/prisma";
-
-type CreateUserInput = {
-    username: string;
-    email: string;
-    pwdHash: string;
-};
+import {CreateUserInput} from "../lib/types"
 
 export const CreateUser = async ({ username, email, pwdHash }: CreateUserInput) => {
     const existingUser = await prisma.userData.findFirst({where: {username}})
