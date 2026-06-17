@@ -34,8 +34,8 @@ services:
       - "3000:3000"
 
     environment:
-  DATABASE_URL: postgres://stockuser:Datait2026!@postgres:5432/stockdb
-  NODE_ENV: production
+    DATABASE_URL: postgres://stockuser:Datait2026!@postgres:5432/stockdb
+    NODE_ENV: production
 
 volumes:
   postgres_data:
