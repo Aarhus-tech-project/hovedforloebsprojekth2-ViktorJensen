@@ -1,0 +1,41 @@
+services:
+
+  postgres:
+    image: postgres:17
+
+    container_name: stock-postgres
+
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: stockdb
+      POSTGRES_USER: stockuser
+      POSTGRES_PASSWORD: Datait2026!
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  frontend:
+
+    build:
+      context: .
+
+    container_name: stock-frontend
+
+    restart: unless-stopped
+
+    depends_on:
+      - postgres
+
+    ports:
+      - "3000:3000"
+
+    environment:
+  DATABASE_URL: postgres://stockuser:Datait2026!@postgres:5432/stockdb
+  NODE_ENV: production
+
+volumes:
+  postgres_data:
