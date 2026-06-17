@@ -9,3 +9,10 @@ export type User = {
     username: string;
     email: string;
 }
+
+export type Stock = {
+    id: string;
+    name: string;
+    latestClose?: number;
+    latestFetchedAt?: string;
+};
