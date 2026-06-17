@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     });
     (await cookies()).set("token", token, {
             httpOnly: true, //cannot be accessed by JavaScript
-            secure: process.env.NODE_ENV === "production", // only use HTTPS in production
+            // secure: process.env.NODE_ENV === "production", // only use HTTPS in production
             sameSite: "strict", // Prevent CSRF
             maxAge: 60 * 60, // cookie expires in 1 hour
             path: "/", // Cookies site wide
