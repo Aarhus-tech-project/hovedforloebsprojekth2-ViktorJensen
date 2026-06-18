@@ -37,27 +37,27 @@ export default function Dashboard() {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <p className="text-gray-500 dark:text-gray-400">Loading...</p>
+            <div className="min-h-screen flex items-center justify-center bg-white/10 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+                <p className="">Loading...</p>
             </div>
         )
     }
 
     return (
-        <div className="flex justify-center min-h-screen font-sans bg-linear-to-b from-black to-gray-900">
+        <div className="flex justify-center min-h-screen font-sans bg-linear-to-tr from-violet-600 via-rose-600 to-amber-600">
             <div className="w-screen h-screen ml-20 mr-20 mt-20 ">
                 {User ? (<div className="font-bold text-3xl">{User.username}</div>) : (null)}
                 <div className="grid grid-cols-3 gap-3 mt-6">
-                    <div className="bg-slate-900 text-white p-4 rounded">
+                    <div className="bg-white/10 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] text-white p-4 rounded">
                         <div className="font-semibold">Portfolios</div>
                         <div className="flex">
-                            <div className="mr-1 bg-slate-800 p-2 rounded-xl font-semibold hover:cursor-pointer transition-transform duration-200 hover:scale-105">New Portfolio</div>
-                            <div className="ml-1 bg-emerald-600 p-2 rounded-xl font-semibold hover:cursor-pointer transition-transform duration-200 hover:scale-105">Add funds</div>
+                            <div className="mr-1 bg-slate-800 p-2 rounded font-semibold hover:cursor-pointer transition-transform duration-200 hover:scale-105">New Portfolio</div>
+                            <div className="ml-1 bg-emerald-600 p-2 rounded font-semibold hover:cursor-pointer transition-transform duration-200 hover:scale-105">Add funds</div>
                         </div>
                     </div>
-                    <div className="bg-slate-900 text-white p-4 rounded">Value</div>
-                    <div className="bg-slate-900 text-white p-4 rounded">My trades</div>
-                    <div className="bg-slate-900 text-white p-4 rounded">Biggest movements</div>
+                    <div className="bg-white/10 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] text-white p-4 rounded">Value</div>
+                    <div className="bg-white/10 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] text-white p-4 rounded">My trades</div>
+                    <div className="bg-white/10 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] text-white p-4 rounded">Biggest movements</div>
                 </div>
             </div>
         </div>
