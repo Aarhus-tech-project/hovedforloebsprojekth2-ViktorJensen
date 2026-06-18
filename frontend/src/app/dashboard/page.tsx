@@ -51,8 +51,8 @@ export default function Dashboard() {
                     <div className="bg-slate-900 text-white p-4 rounded">
                         <div className="font-semibold">Portfolios</div>
                         <div className="flex">
-                            <div className="mr-1 bg-slate-800 p-2 rounded-2xl font-semibold hover:cursor-pointer">New Portfolio</div>
-                            <div className="ml-1 bg-blue-600 p-2 rounded-2xl font-semibold hover:cursor-pointer">Add funds</div>
+                            <div className="mr-1 bg-slate-800 p-2 rounded-xl font-semibold hover:cursor-pointer transition-transform duration-200 hover:scale-105">New Portfolio</div>
+                            <div className="ml-1 bg-emerald-600 p-2 rounded-xl font-semibold hover:cursor-pointer transition-transform duration-200 hover:scale-105">Add funds</div>
                         </div>
                     </div>
                     <div className="bg-slate-900 text-white p-4 rounded">Value</div>
