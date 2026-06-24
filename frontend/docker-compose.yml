@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: .
+      args:
+        DATABASE_URL: ${DATABASE_URL}
+    ports:
+      - "127.0.0.1:8080:3000" # for local testing use "3000:3000"
+    env_file:
+      - .env
+    restart: unless-stopped
